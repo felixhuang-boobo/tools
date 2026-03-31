@@ -5,16 +5,35 @@
   python batch_update_seller_status.py 3177094371 3177094372 3177094373
   python batch_update_seller_status.py -f item_numbers.txt
   python batch_update_seller_status.py -f item_numbers.txt --token "新token"
+
+配置:
+  在同目录下创建 .env 文件，写入 SP_TOKEN=xxx（参考 .env.example）
 """
 
 import argparse
 import json
+import os
 import time
 import requests
 
 
 BASE_URL = "https://centralapi.yamibuy.net/sp/seller/v1/itemApproval/updateSellerStatus"
-DEFAULT_TOKEN = "eyJhdXRoIjoiYmIwYWZlNDdlYjM4ZDRkZjYwOTNiMjAwNTU5ZmEzOGMiLCJkYXRhIjoiMTg4ODYiLCJub25jZSI6Ijk4MTMiLCJ0IjoxLCJ0cyI6MTc3MzM2NTI5MywidiI6M30="
+
+
+def load_token_from_env():
+    """从同目录 .env 文件加载 SP_TOKEN"""
+    env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    if not os.path.exists(env_path):
+        return None
+    with open(env_path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line.startswith("SP_TOKEN=") and not line.startswith("#"):
+                return line.split("=", 1)[1].strip()
+    return None
+
+
+DEFAULT_TOKEN = load_token_from_env() or ""
 
 
 def call_api(item_number: str, token: str, seller_status: str, memo: str, audit_reason: int, user: str):
@@ -41,6 +60,10 @@ def main():
     parser.add_argument("--user", default="system")
     parser.add_argument("--delay", type=float, default=0.2, help="请求间隔秒数，默认0.2")
     args = parser.parse_args()
+
+    if not args.token:
+        print("错误: 未配置 token，请在 .env 文件中设置 SP_TOKEN 或通过 --token 参数传入")
+        return
 
     item_numbers = list(args.items)
     if args.file:
