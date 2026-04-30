@@ -34,8 +34,23 @@
 
 详细步骤请参考 [安装使用说明](mentiion_notify/google_sheet_mention_notify_guide.md)。
 
-### 批量更新卖家状态脚本
+### MyBatis Navigator（VS Code / Kiro 插件）
 
-> 路径：`batch_update_seller_status.py`
+> 路径：`mybatis-navigator/`
 
-Python 脚本，用于批量更新卖家状态。
+MyBatis Mapper 接口与 XML 之间的双向跳转插件，为 VS Code / Kiro 提供类似 IntelliJ IDEA 的开发体验。
+
+**核心功能：**
+- Ctrl+Click 在 Java 接口方法名和 XML SQL 语句之间双向跳转
+- CodeLens 在方法上方显示可点击的跳转链接
+- Gutter 图标（绿色箭头/蓝色箭头/黄色警告）
+- Alt+Shift+M 快捷键跳转
+- 文件保存时自动增量更新索引
+- 支持 `xml` 和 `mybatis-xml` 两种 languageId
+
+**安装方式：**
+```powershell
+kiro --install-extension mybatis-navigator/mybatis-navigator-0.1.0.vsix --force
+```
+
+详细说明请参考 [mybatis-navigator/README.md](mybatis-navigator/README.md)。

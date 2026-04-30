@@ -1,0 +1,87 @@
+{
+  "name": "mybatis-navigator",
+  "displayName": "MyBatis Navigator",
+  "description": "MyBatis Mapper 接口与 XML 之间的双向跳转，类似 IntelliJ IDEA 的体验",
+  "version": "0.1.0",
+  "publisher": "yamibuy",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:java",
+    "onLanguage:xml",
+    "onLanguage:mybatis-xml"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mybatis-navigator.jumpToMapper",
+        "title": "MyBatis: 跳转到 Mapper XML"
+      },
+      {
+        "command": "mybatis-navigator.jumpToInterface",
+        "title": "MyBatis: 跳转到 Java 接口"
+      },
+      {
+        "command": "mybatis-navigator.rebuildIndex",
+        "title": "MyBatis: 重建索引"
+      }
+    ],
+    "configuration": {
+      "title": "MyBatis Navigator",
+      "properties": {
+        "mybatisNavigator.mapperXmlGlob": {
+          "type": "string",
+          "default": "**/src/main/resources/mapper/**/*.xml",
+          "description": "Mapper XML 文件的 glob 匹配模式"
+        },
+        "mybatisNavigator.javaSourceGlob": {
+          "type": "string",
+          "default": "**/src/main/java/**/*.java",
+          "description": "Java 源文件的 glob 匹配模式"
+        },
+        "mybatisNavigator.enableCodeLens": {
+          "type": "boolean",
+          "default": true,
+          "description": "是否在 Java 接口方法上方显示 CodeLens 跳转链接"
+        },
+        "mybatisNavigator.enableGutterIcon": {
+          "type": "boolean",
+          "default": true,
+          "description": "是否在行号旁显示跳转图标"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "mybatis-navigator.jumpToMapper",
+        "key": "alt+shift+m",
+        "when": "editorLangId == java"
+      },
+      {
+        "command": "mybatis-navigator.jumpToInterface",
+        "key": "alt+shift+m",
+        "when": "editorLangId == xml"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.3.4"
+  }
+}
